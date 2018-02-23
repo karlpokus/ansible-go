@@ -1,0 +1,37 @@
+---
+
+- name: download zip
+  get_url:
+    url: "{{ hoverfly_url }}"
+    dest: /usr/local/src/{{ hoverfly_zip }}
+
+- name: Register current hoverfly version (if any)
+  command: /usr/local/bin/hoverfly -version
+  ignore_errors: yes
+  register: hoverfly_version
+  changed_when: false
+
+- name: conditionally remove old installation of hoverfly
+  file:
+    path: "/usr/local/bin/{{ item }}"
+    state: absent
+  with_items:
+    - hoverfly
+    - hoverctl
+  when: hoverfly_version|failed or hoverfly_version.stdout != hoverfly_version_target
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: unzip hoverfly if not yet installed or not the desired version
+  unarchive:
+    src: /usr/local/src/{{ hoverfly_zip }}
+    dest: /usr/local/bin
+    remote_src: yes
+  when: hoverfly_version|failed or hoverfly_version.stdout != hoverfly_version_target
+
+- name: remove cruft
+  file:
+    path: "/usr/local/bin/{{ item }}"
+    state: absent
+  with_items:
+    - VERSION.txt
+    - LICENSE.txt

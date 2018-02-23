@@ -1,0 +1,4 @@
+---
+hoverfly_zip: "hoverfly_bundle_linux_amd64.zip"
+hoverfly_url: "https://github.com/SpectoLabs/hoverfly/releases/download/v0.15.1/{{ hoverfly_zip }}"
+hoverfly_version_target: "v0.15.0"
