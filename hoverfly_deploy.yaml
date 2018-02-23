@@ -1,0 +1,17 @@
+---
+
+- hosts: eb-stage-appdyn-eum
+  name: gather facts
+  tasks: [ ]
+
+#- hosts: eb-stage-appdyn-eum
+#  name: install go
+#  become: true
+#  roles:
+#    - go
+
+- hosts: eb-stage-appdyn-eum
+  name: install hoverfly
+  become: true
+  roles:
+    - hoverfly

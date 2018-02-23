@@ -1,5 +1,6 @@
 ---
-- name: Download the Go tarball
+  
+- name: Download go tarball
   get_url:
     url: "{{ go_download_location }}"
     dest: /usr/local/src/{{ go_tarball }}
